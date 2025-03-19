@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Animado</title>
+  <style>
+    /* Video de fondo */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Contenedor principal de login */
+    .login-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgb(0, 0, 0);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgb(183, 0, 255);
+      width: 300px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #02fff2;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    .input-group input:focus {
+      outline: none;
+    }
+
+    .input-group label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #00dcec00;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: -15px;
+      font-size: 12px;
+      color: #00e1ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #02e2ff;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    button:hover {
+      background: #01e6ff3b;
+      animation: pulse 0.6s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .extra-options {
+      margin-top: 15px;
+    }
+
+    .btn-link {
+      color: #00bcd4;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-link:hover {
+      color: #0097a7;
+    }
+
+    /* Overlay de bienvenida */
+    #welcomeOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.623);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 10;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+    
+    #welcomeOverlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #welcomeOverlay .welcome-message {
+      color: #06dffc;
+      font-size: 36px;
+      text-align: center;
+      animation: slideDown 1s ease;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Video de fondo -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="https://media.istockphoto.com/id/2173341833/video/abstract-blue-and-green-neon-glowing-line-frame-animated-moving-led-light-screen-box.mp4?s=mp4-640x640-is&k=20&c=DmK1yRYMPtrl4PitfAS-D-jw0gVrtdkUTXaVsMv4VW8=" type="video/mp4">
+    Tu navegador no soporta la reproducción de videos.
+  </video>
+
+  <!-- Formulario de login -->
+  <div class="login-container">
+    <form id="loginForm">
+      <h2>Iniciar Sesión</h2><h2 style="color: white;">Iniciar Sesión</h2>
+      <div class="input-group">
+        <input type="email" id="emailLogin" required placeholder=" ">
+        <label for="emailLogin">Correo Electrónico</label>
+      </div>
+      <div class="input-group">
+        <input type="password" id="claveLogin" required placeholder=" ">
+        <label for="claveLogin">Contraseña</label>
+      </div>
+      <button type="submit">Entrar</button>
+      <div class="extra-options">
+        <a href="crear_cuenta.html" class="btn-link">Crea Cuenta</a>
+        <a href="#" id="forgotPassword" class="btn-link">¿Olvidaste tu clave?</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Overlay de bienvenida -->
+  <div id="welcomeOverlay">
+    <div class="welcome-message">¡Bienvenido!</div>
+  </div>
+
+  <script>
+    function iniciarSesion(e) {
+      e.preventDefault();
+
+      const emailIngresado = document.getElementById("emailLogin").value;
+      const claveIngresada = document.getElementById("claveLogin").value;
+
+      const emailRegistrado = localStorage.getItem("usuarioCorreo");
+      const claveRegistrada = localStorage.getItem("usuarioClave");
+
+      if (!emailIngresado || !claveIngresada) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+
+      if (emailIngresado === emailRegistrado && claveIngresada === claveRegistrada) {
+        // Mostrar animación de bienvenida en overlay
+        const overlay = document.getElementById("welcomeOverlay");
+        overlay.classList.add("active");
+
+        // Después de 2 segundos, redirigir a 2pajina_web.html
+        setTimeout(() => {
+          window.location.href = "2pajina_web.html";
+        }, 2000);
+      } else {
+        alert("Correo o contraseña incorrectos.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loginForm').addEventListener('submit', iniciarSesion);
+      document.getElementById('forgotPassword').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Funcionalidad para recuperar contraseña");
+      });
+    });
+  </script>
+</body>
+</html>

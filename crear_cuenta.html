@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Cuenta - Mi Sitio</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Estilos para el video de fondo */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video de fondo -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="https://media.istockphoto.com/id/1861758016/video/square-shaped-of-the-light-blue-color-glowing-frame-shining-blank-neo-border-sign.mp4?s=mp4-640x640-is&k=20&c=Cxn0KqeqtJ1PHn7itA729-1mILUXP_yY6f1cq0va6gs=" type="video/mp4">
+    Tu navegador no soporta la reproducción de videos.
+  </video>
+  
+  <div class="container register-container">
+    <h2>Crear Cuenta</h2>
+    <form id="registerForm">
+      <div class="input-group">
+        <input type="text" id="usuario" name="usuario" required placeholder=" ">
+        <label for="usuario">usuario</label>
+      </div>
+      <div class="input-group">
+        <input type="text" id="nombre" name="nombre" required placeholder=" ">
+        <label for="nombre">Nombre</label>
+      </div>
+      <div class="input-group">
+        <input type="text" id="apellido" name="apellido" required placeholder=" ">
+        <label for="apellido">apellido</label>
+      </div>
+      <div class="input-group">
+        <input type="email" id="email" name="email" required placeholder=" ">
+        <label for="email">Correo Electrónico</label>
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" name="password" required placeholder=" ">
+        <label for="password">Contraseña</label>
+      </div>
+      <button type="submit">Crear Cuenta</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerForm = document.getElementById("registerForm");
+      registerForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        // Obtenemos los valores ingresados
+        const usuario = document.getElementById("usuario").value;
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        
+        // Guardamos los datos en localStorage (opcional, para usar en el login)
+        localStorage.setItem("usuariousuario", usuario);
+        localStorage.setItem("usuarioNombre", nombre);
+        localStorage.setItem("usuarioapellido", apellido);
+        localStorage.setItem("usuarioCorreo", email);
+        localStorage.setItem("usuarioClave", password);
+        
+        // Redirigimos a index.html (página de login)
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>
